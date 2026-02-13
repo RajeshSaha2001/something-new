@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Be My Valentine 💖</title>
+
+<style>
+body {
+  margin:0;
+  height:100vh;
+  font-family:'Segoe UI', sans-serif;
+  background: linear-gradient(135deg,#ff9a9e,#fad0c4);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+}
+
+/* floating hearts */
+body::before {
+  content:"💖 💕 💗 💓 💞";
+  position:absolute;
+  font-size:30px;
+  animation: float 10s linear infinite;
+  opacity:0.3;
+}
+@keyframes float {
+  0% { transform: translateY(100vh); }
+  100% { transform: translateY(-100vh); }
+}
+
+.card {
+  background:white;
+  padding:40px;
+  border-radius:20px;
+  text-align:center;
+  width:350px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.3);
+}
+
+h1 { color:#e91e63; }
+
+.buttons {
+  display:flex;
+  justify-content:center;
+  gap:15px;
+  margin-top:20px;
+}
+
+button {
+  border:none;
+  border-radius:30px;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+.yes1 { padding:12px 30px; font-size:18px; }
+.yes2 { padding:16px 40px; font-size:22px; }
+.yes3 { padding:20px 55px; font-size:26px; }
+
+#yesBtn {
+  background:#e91e63;
+  color:white;
+}
+#yesBtn:hover { transform:scale(1.1); }
+
+#noBtn {
+  background:#999;
+  color:white;
+  padding:12px 25px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- MUSIC -->
+<audio id="bgmusic" loop>
+  <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<div class="card">
+
+<h1 id="message">
+Would you be my Valentine, my dearest Titli ? 💘
+</h1>
+
+<div class="buttons" id="buttonArea">
+<button id="yesBtn" class="yes1">Yes 💖</button>
+<button id="noBtn">No 🙃</button>
+</div>
+
+<div id="acceptedBox" style="display:none;">
+<h1>Hurray! Titli Accepted it!! 🎉💖</h1>
+<p>
+Being around you I feel the happiest person.<br>
+Thank you for being there.<br>
+I Love You so much Titlii!! ❤️
+</p>
+
+<img src="https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif"
+style="width:100%;border-radius:15px;margin-top:15px;">
+</div>
+
+</div>
+
+<script>
+let step = 1;
+
+const message = document.getElementById("message");
+const yesBtn = document.getElementById("yesBtn");
+const noBtn = document.getElementById("noBtn");
+const acceptedBox = document.getElementById("acceptedBox");
+const buttonArea = document.getElementById("buttonArea");
+
+/* Start music after first click (browser rule) */
+document.addEventListener("click", () => {
+  document.getElementById("bgmusic").play();
+}, { once:true });
+
+yesBtn.onclick = () => {
+  message.style.display="none";
+  buttonArea.style.display="none";
+  acceptedBox.style.display="block";
+};
+
+/* NO button logic */
+noBtn.onclick = () => {
+
+  if(step === 1){
+    message.innerHTML="Come'on please accept it yaar 💕";
+    yesBtn.className="yes2";
+    step++;
+  }
+  else if(step === 2){
+    message.innerHTML="Again no? 😢<br>But I will always try, not run away.<br>I love you yaar!! 💖";
+    yesBtn.className="yes3";
+
+    /* make NO run away */
+    buttonArea.style.position="relative";
+    noBtn.style.position="absolute";
+
+    noBtn.addEventListener("mouseenter", moveNoFast);
+    step++;
+  }
+};
+
+function moveNoFast(){
+  const parent = buttonArea;
+
+  const maxX = parent.clientWidth - noBtn.offsetWidth;
+  const maxY = parent.clientHeight - noBtn.offsetHeight;
+
+  noBtn.style.left = Math.random()*maxX + "px";
+  noBtn.style.top = Math.random()*maxY + "px";
+  noBtn.style.transition="0.05s linear";
+}
+</script>
+
+</body>
+</html>
